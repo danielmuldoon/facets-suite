@@ -62,10 +62,14 @@ calculate_fraction_cna = function(segs,
         diploid_length = sum(as.numeric(segs$length[which((segs$tcn == 2 & segs$lcn == 1) | (segs$tcn == 4 & segs$lcn == 2))]))
     }
     frac_altered = (interrogated_genome - diploid_length) / interrogated_genome
-    
+
+    # % of genome with MCN >= 2
+    frac_elevated_mcn = is_genome_doubled_2(segs, sample_chrom_info, treshold = 0.5)
+  
     list(
         genome_doubled = wgd,
         fraction_cna = frac_altered
+        frac_genome_mcn_equal_to_or_more_than_2 = frac_elevated_mcn
     )
 }
 
@@ -457,6 +461,18 @@ is_genome_doubled = function(segs, chrom_info, treshold = 0.5) {
     wgd = frac_elevated_mcn > treshold
     
     wgd
+}
+
+is_genome_doubled_2 = function(segs, chrom_info, treshold = 0.5) {
+    
+    # Calculated length of autosomal
+    autosomal_genome = sum(as.numeric(chrom_info$size[chrom_info$chr %in% 1:22]))
+    
+    # Check for whole-genome duplication // PMID 30013179
+    frac_elevated_mcn = sum(as.numeric(segs$length[which(segs$mcn >= 2 & segs$chrom %in% 1:22)])) / autosomal_genome
+    wgd = frac_elevated_mcn > treshold
+    
+    frac_elevated_mcn
 }
 
 # Join segments with identical copy number that are separated for some reason
