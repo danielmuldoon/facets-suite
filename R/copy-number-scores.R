@@ -422,7 +422,8 @@ parse_segs = function(segs, algorithm = c('em', 'cncf')) {
         segs$cf = segs$cf.em
     }
     mutate(segs,
-           #length = end - start, ##temp take out for luc's mcn question
+           #length = end - start,
+           length = loc.end - loc.start, ##temp change for luc's mcn question
            lcn = ifelse(tcn <= 1, 0,
                     ifelse(is.na(lcn) & tcn <= 1, 0, lcn)),  # correct mcn, lcn for cases of tcn = 1 // sometimes FACETS set lcn = NA when tcn = 1, when it clearly has to be 0
            mcn = tcn - lcn) %>% 
