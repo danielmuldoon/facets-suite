@@ -433,8 +433,8 @@ parse_segs = function(segs, algorithm = c('em', 'cncf')) {
 get_sample_genome = function(segs, genome) {
     map_dfr(unique(segs$chrom), function(x) {
         centromere = genome$centromere[which(genome$chrom == x)]
-        chrstart = min(segs$start[which(segs$chrom == x)])
-        chrend = max(segs$end[which(segs$chrom == x)])
+        chrstart = min(segs$loc.start[which(segs$chrom == x)]) ## temp segs$start change
+        chrend = max(segs$loc.end[which(segs$chrom == x)]) ## temp segs$end change
         size = chrend - chrstart
         plength = centromere - chrstart
         if (plength < 0) plength = 0 # acrocentric chromosomes
