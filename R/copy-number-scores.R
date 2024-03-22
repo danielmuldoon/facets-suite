@@ -68,7 +68,7 @@ calculate_fraction_cna = function(segs,
   
     list(
         genome_doubled = wgd,
-        fraction_cna = frac_altered
+        fraction_cna = frac_altered,
         frac_genome_mcn_equal_to_or_more_than_2 = frac_elevated_mcn
     )
 }
